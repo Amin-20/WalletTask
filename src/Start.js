@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { cards } from "./data";
 
-export default function Start() {
+export default function Start(props) {
   const mainStyle = {
     border: "3px solid #ff6400",
     position: "absolute",
@@ -32,8 +32,14 @@ export default function Start() {
   };
 
   const [wallets, setWallets] = useState(cards);
+  const [currentCard, setCurrentCard] = useState(null);
   const [newCardName, setNewCardName] = useState("");
   const [newValyute, setNewValyute] = useState("");
+
+  function setCurrentWallet(id) {
+    const item = wallets.find((w) => w.id == id);
+    setCurrentCard(item);
+  }
 
   function handleObject() {
     setWallets([
@@ -58,6 +64,10 @@ export default function Start() {
     setNewValyute(e.target.value);
   }
 
+  const handleClick = (currentCard) => {
+    props.onSelectWallet(currentCard);
+  };
+
   return (
     <div style={mainStyle}>
       <div>
@@ -76,9 +86,14 @@ export default function Start() {
           fontSize: "18px",
           marginTop: "10px",
         }}
+        onChange={(e) => {
+          setCurrentWallet(e.target.value);
+        }}
       >
         {wallets.map((w, index) => (
-          <option key={index}>{w.name}</option>
+          <option key={index} value={w.id}>
+            {w.name}
+          </option>
         ))}
       </select>
 
@@ -99,7 +114,14 @@ export default function Start() {
         <option value="try">TRY</option>
       </select>
 
-      <button style={buttonStyle}>Show Wallet</button>
+      <button
+        style={buttonStyle}
+        onClick={() => {
+          handleClick(currentCard);
+        }}
+      >
+        Show Wallet
+      </button>
       <button
         style={{
           border: "2px solid #ff6400",

@@ -15,7 +15,7 @@ export const cards = [
   {
     id: 2,
     name: "Kapital",
-    currency: "AZN",
+    currency: "USD",
     incomes: [
       { name: "Salary", money: 1000 },
       { name: "Crypto", money: 3700 },
